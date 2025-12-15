@@ -42,20 +42,30 @@ nav button{
   border-radius:50%;
 }
 
-/* Botón menú música */
-.music-menu{
-  position:relative;
-  text-align:right;
+/* Barra música */
+.music-bar{
   max-width:700px;
   margin:1rem auto 0;
   padding:0 1rem;
+  display:flex;
+  justify-content:flex-end;
+  position:relative;
 }
 
-.music-btn{
-  background:transparent;
+.music-controls{
+  display:flex;
+  align-items:center;
+  background:rgba(0,0,0,.55);
+  border-radius:20px;
+  padding:.2rem .4rem;
+}
+
+.music-controls button{
+  background:none;
   border:none;
   color:#fff;
-  font-size:1.5rem;
+  font-size:1.2rem;
+  padding:.3rem .5rem;
 }
 
 /* Lista música */
@@ -63,6 +73,7 @@ nav button{
   display:none;
   position:absolute;
   right:1rem;
+  top:2.2rem;
   background:#111;
   border-radius:8px;
   padding:.5rem;
@@ -85,7 +96,7 @@ main{
   display:flex;
   justify-content:center;
   padding:1.5rem;
-  padding-bottom:5rem;
+  padding-bottom:4rem;
 }
 
 .page{
@@ -109,7 +120,7 @@ main{
   color:#777;
 }
 
-/* Reproductor oculto */
+/* Audio oculto */
 audio{display:none;}
 </style>
 </head>
@@ -126,17 +137,20 @@ audio{display:none;}
 </nav>
 </header>
 
-<!-- Menú música -->
-<div class="music-menu">
-<button class="music-btn" onclick="toggleMusic()">⋮</button>
+<!-- Barra de música integrada -->
+<div class="music-bar">
+  <div class="music-controls">
+    <button onclick="togglePlay()">▶️</button>
+    <button onclick="toggleMenu()">⋮</button>
+  </div>
 
-<div class="music-list" id="musicList">
-<button onclick="playMusic(0)">🎵 Canción 1</button>
-<button onclick="playMusic(1)">🎵 Canción 2</button>
-<button onclick="playMusic(2)">🎵 Canción 3</button>
-<hr>
-<button onclick="playRandom()">🔀 Aleatorio</button>
-</div>
+  <div class="music-list" id="musicList">
+    <button onclick="playMusic(0)">🎵 Canción 1</button>
+    <button onclick="playMusic(1)">🎵 Canción 2</button>
+    <button onclick="playMusic(2)">🎵 Canción 3</button>
+    <hr>
+    <button onclick="playRandom()">🔀 Aleatorio</button>
+  </div>
 </div>
 
 <main>
@@ -166,28 +180,38 @@ const songs = [
 ];
 
 const player = document.getElementById("player");
+let currentSong = 0;
 
 function showPage(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page'+n).classList.add('active');
 }
 
-function toggleMusic(){
+function toggleMenu(){
   const list = document.getElementById("musicList");
   list.style.display = list.style.display === "block" ? "none" : "block";
 }
 
 function playMusic(index){
-  if(player.src !== songs[index]){
-    player.src = songs[index];
-    player.play();
-  }
+  currentSong = index;
+  player.src = songs[index];
+  player.play();
   document.getElementById("musicList").style.display = "none";
 }
 
 function playRandom(){
   const r = Math.floor(Math.random() * songs.length);
   playMusic(r);
+}
+
+function togglePlay(){
+  if(!player.src){
+    playMusic(currentSong);
+  }else if(player.paused){
+    player.play();
+  }else{
+    player.pause();
+  }
 }
 </script>
 
