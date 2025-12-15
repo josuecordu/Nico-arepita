@@ -1,153 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Poemas y Música</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-      color: #f5f5f5;
-      min-height: 100vh;
-    }
+<title>Arepita</title>
 
-    header {
-      text-align: center;
-      padding: 1rem;
-      background: rgba(0,0,0,0.4);
-    }
+<!-- Fuente especial -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
 
-    nav {
-      margin-top: 0.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Georgia,serif;
+  background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);
+  color:#f5f5f5;
+}
 
-    nav button {
-      background: transparent;
-      border: 1px solid #fff;
-      color: #fff;
-      padding: 0.4rem 0.9rem;
-      border-radius: 20px;
-      cursor: pointer;
-    }
+header{
+  text-align:center;
+  padding:1.5rem 1rem;
+  background:rgba(0,0,0,.4);
+}
 
-    nav button:hover {
-      background: rgba(255,255,255,0.2);
-    }
+header h1{
+  font-family:'Playfair Display', serif;
+  font-size:2.6rem;
+  font-weight:600;
+  margin:0;
+  letter-spacing:1px;
+}
 
-    main {
-      max-width: 700px;
-      margin: auto;
-      padding: 2rem 1.5rem 5rem;
-    }
+header p{
+  margin-top:0.4rem;
+  font-size:0.95rem;
+  opacity:0.85;
+}
 
-    .page {
-      display: none;
-      animation: fade 0.5s ease;
-    }
+nav button{
+  background:transparent;
+  border:1px solid #fff;
+  color:#fff;
+  padding:.4rem .9rem;
+  margin:.3rem;
+  border-radius:20px;
+}
 
-    .page.active {
-      display: block;
-    }
+main{
+  max-width:700px;
+  margin:auto;
+  padding:2rem 1.5rem 6rem;
+}
 
-    @keyframes fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+.page{display:none;}
+.page.active{display:block;}
 
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: rgba(0,0,0,0.6);
-      padding: 0.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    footer button {
-      background: transparent;
-      border: 1px solid #fff;
-      color: #fff;
-      padding: 0.3rem 0.7rem;
-      border-radius: 15px;
-      cursor: pointer;
-      font-size: 0.8rem;
-    }
-
-    footer button:hover {
-      background: rgba(255,255,255,0.2);
-    }
-  </style>
+footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:rgba(0,0,0,.6);
+  padding:.6rem;
+  text-align:center;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Lo que no se dijo</h1>
-  <p>Poemas que viven con música</p>
+<h1>Arepita</h1>
+<p>Poemas con música</p>
 
-  <nav>
-    <button onclick="showPage(1)">Poema I</button>
-    <button onclick="showPage(2)">Poema II</button>
-    <button onclick="showPage(3)">Poema III</button>
-  </nav>
+<nav>
+<button onclick="showPage(1)">Poema 1</button>
+<button onclick="showPage(2)">Poema 2</button>
+<button onclick="showPage(3)">Poema 3</button>
+</nav>
 </header>
 
 <main>
-  <section id="page1" class="page active">
-    <h2>Poema I</h2>
-    <p>
-      Aquí va tu primer poema.<br><br>
-      Escribí sin miedo,<br>
-      como si nadie fuera a leerlo.
-    </p>
-  </section>
+<section id="page1" class="page active">
+<h2>Poema 1</h2>
+</section>
 
-  <section id="page2" class="page">
-    <h2>Poema II</h2>
-    <p>
-      Este poema vive en otra noche,<br>
-      con otra canción,<br>
-      con otro silencio.
-    </p>
-  </section>
+<section id="page2" class="page">
+<h2>Poema 2</h2>
+</section>
 
-  <section id="page3" class="page">
-    <h2>Poema III</h2>
-    <p>
-      El último poema no cierra nada,<br>
-      solo deja la puerta entreabierta.
-    </p>
-  </section>
+<section id="page3" class="page">
+<h2>Poema 3</h2>
+</section>
 </main>
 
 <footer>
-  <audio id="player" controls></audio>
-  <button onclick="playMusic('musica1.mp3')">Canción 1</button>
-  <button onclick="playMusic('musica2.mp3')">Canción 2</button>
-  <button onclick="playMusic('musica3.mp3')">Canción 3</button>
+<audio id="player" controls></audio><br>
+
+<button onclick="playMusic('El Libro De La Vida - Te Amo Y Más (By_ Diego Luna) (Letra)(M4A_128K)_1.m4a')">
+Canción 1
+</button>
+
+<button onclick="playMusic('El Libro De La Vida - No Matter Where You Are (By_ Diego Luna _ Zoe Saldana) (Sub Español   Lyrics)(M4A_128K).m4a')">
+Canción 2
+</button>
+
+<button onclick="playMusic('En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a')">
+Canción 3
+</button>
 </footer>
 
 <script>
-  function showPage(num) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page' + num).classList.add('active');
-  }
-
-  function playMusic(src) {
-    const player = document.getElementById('player');
-    player.src = src;
-    player.play();
-  }
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
+}
+function playMusic(src){
+  const p=document.getElementById('player');
+  p.src=src;
+  p.play();
+}
 </script>
 
 </body>
