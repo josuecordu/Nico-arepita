@@ -30,7 +30,7 @@ header h1{
   max-width:700px;
   margin:1rem auto;
   background:rgba(0,0,0,.6);
-  border-radius:10px;
+  border-radius:12px;
   padding:1rem;
   color:#fff;
 }
@@ -45,7 +45,7 @@ header h1{
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:1rem;
+  gap:1.2rem;
 }
 
 .controls button{
@@ -57,7 +57,7 @@ header h1{
 
 .progress{
   width:100%;
-  margin:.5rem 0;
+  margin:.6rem 0;
 }
 
 .volume{
@@ -90,13 +90,15 @@ main{
   background:#fdf8f2;
   max-width:700px;
   width:100%;
-  padding:2rem;
+  padding:2.2rem;
   border-radius:6px;
   box-shadow:0 10px 25px rgba(0,0,0,.35);
-  line-height:1.7;
+  line-height:1.8;
 }
 
-.page.active{display:block;}
+.page.active{
+  display:block;
+}
 
 .page h2{
   text-align:center;
@@ -115,12 +117,12 @@ main{
 <body>
 
 <header>
-<h1>Arepita</h1>
+  <h1>Arepita</h1>
 
-<nav>
-<button onclick="showPage(1)">1</button>
-<button onclick="showPage(2)">2</button>
-</nav>
+  <nav>
+    <button onclick="showPage(1)">1</button>
+    <button onclick="showPage(2)">2</button>
+  </nav>
 </header>
 
 <!-- ===== REPRODUCTOR ===== -->
@@ -140,8 +142,10 @@ main{
 
 <main>
 
+<!-- ===== PÁGINA 1 ===== -->
 <section id="page1" class="page active">
 <h2>Fuego a la distancia</h2>
+
 <p>
 Entre mares y kilómetros se esconde tu voz,<br>
 y aun así, me alcanza.<br><br>
@@ -149,23 +153,54 @@ y aun así, me alcanza.<br><br>
 No hay muro que detenga la chispa que encendiste sin tocarme.<br><br>
 
 Eres fuego que no quema, pero arde en cada pensamiento;<br>
-labra el aire con su fuerza,<br>
-y deja en mi pecho un desvelo eterno.
+labra el aire con su fuerza, y deja en mi pecho un desvelo eterno.<br><br>
+
+Trabajas, brillas, resistes mujer hecha de empeño y llama<br>
+y aunque el mundo nos mida en mapas, mi alma te busca sin brújula ni calma.<br><br>
+
+Quizá el destino juega con nosotros, quizá el tiempo pruebe su poder,<br>
+pero hay miradas que, aunque lejanas, encienden más que el amanecer.<br><br>
 </p>
+
 <div class="page-number">1</div>
 </section>
 
+<!-- ===== PÁGINA 2 ===== -->
 <section id="page2" class="page">
 <p>
 Mientras tanto<br>
 No te tengo,<br>
 pero te sostengo en la calma.<br><br>
 
+Como se sostiene una certeza<br>
+que no necesita pruebas.<br><br>
+
 La distancia no nos separa,<br>
 nos aprende.<br>
 Nos vuelve pacientes,<br>
-nos vuelve verdad.
+nos vuelve verdad.<br><br>
+
+Te extraño sin ruido,<br>
+sin urgencia,<br>
+porque sé que el tiempo<br>
+también sabe amar.<br><br>
+
+Nuestro amor no corre,<br>
+permanece.<br>
+Crece en lo invisible,<br>
+en lo que aún no ocurre.<br><br>
+
+Yo espero sin cansarme,<br>
+contando días como quien riega una planta:<br>
+con cuidado,<br>
+con fe.<br><br>
+
+Y cuando al fin nos veamos,<br>
+no habrá sorpresa,<br>
+solo reconocimiento,<br>
+como si siempre hubiéramos estado ahí.
 </p>
+
 <div class="page-number">2</div>
 </section>
 
@@ -223,20 +258,19 @@ function prevSong(){
   audio.play();
 }
 
-/* CONTINUA AUTOMÁTICAMENTE */
 audio.addEventListener("ended", nextSong);
 
-/* PROGRESO */
 audio.addEventListener("timeupdate", ()=>{
-  progress.max = audio.duration;
-  progress.value = audio.currentTime;
+  if(audio.duration){
+    progress.max = audio.duration;
+    progress.value = audio.currentTime;
+  }
 });
 
 progress.addEventListener("input", ()=>{
   audio.currentTime = progress.value;
 });
 
-/* VOLUMEN */
 volume.addEventListener("input", ()=>{
   audio.volume = volume.value;
 });
