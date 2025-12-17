@@ -40,43 +40,24 @@ nav button{
   border-radius:50%;
 }
 
-/* Barra música */
-.music-bar{
+/* Reproductor */
+.player-wrapper{
   max-width:700px;
   margin:1rem auto 0;
   padding:0 1rem;
-  display:flex;
-  justify-content:flex-end;
-  position:relative;
 }
 
-.music-controls{
-  display:flex;
-  align-items:center;
-  background:rgba(0,0,0,.55);
-  border-radius:20px;
-  padding:.2rem .4rem;
-}
-
-.music-controls button{
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:1.2rem;
-  padding:.3rem .5rem;
+audio{
+  width:100%;
+  margin-top:.5rem;
 }
 
 /* Lista música */
 .music-list{
-  display:none;
-  position:absolute;
-  right:1rem;
-  top:2.2rem;
-  background:#111;
+  margin-top:.5rem;
+  background:rgba(0,0,0,.55);
   border-radius:8px;
   padding:.5rem;
-  width:300px;
-  z-index:10;
 }
 
 .music-list button{
@@ -124,8 +105,6 @@ main{
   font-size:.85rem;
   color:#777;
 }
-
-audio{display:none;}
 </style>
 </head>
 
@@ -140,20 +119,19 @@ audio{display:none;}
 </nav>
 </header>
 
-<!-- Barra de música -->
-<div class="music-bar">
-  <div class="music-controls">
-    <button onclick="togglePlay()">▶️</button>
-    <button onclick="toggleMenu()">⋮</button>
-  </div>
+<!-- REPRODUCTOR COMPLETO -->
+<div class="player-wrapper">
 
-  <div class="music-list" id="musicList">
-    <button onclick="playMusic(0)">🎵 Te Amo y Más</button>
-    <button onclick="playMusic(1)">🎵 No Matter Where You Are</button>
-    <button onclick="playMusic(2)">🎵 En las danzas y en los sueños</button>
-    <hr>
-    <button onclick="playRandom()">🔀 Aleatorio</button>
-  </div>
+<audio id="player" controls></audio>
+
+<div class="music-list">
+  <button onclick="playMusic(0)">🎵 Te Amo y Más</button>
+  <button onclick="playMusic(1)">🎵 No Matter Where You Are</button>
+  <button onclick="playMusic(2)">🎵 En las danzas y en los sueños</button>
+  <hr>
+  <button onclick="playRandom()">🔀 Reproducir aleatorio</button>
+</div>
+
 </div>
 
 <main>
@@ -179,9 +157,7 @@ mi alma te busca sin brújula ni calma.<br><br>
 Quizá el destino juega con nosotros,<br>
 quizá el tiempo pruebe su poder,<br>
 pero hay miradas que, aunque lejanas,<br>
-encienden más que el amanecer.<br><br>
-
-<em>Hablando de poemas, uno que había escrito hace poco en un momento de inspiración.</em>
+encienden más que el amanecer.
 </p>
 
 <div class="page-number">1</div>
@@ -207,27 +183,13 @@ porque sé que el tiempo<br>
 también sabe amar.<br><br>
 
 Nuestro amor no corre,<br>
-permanece.<br>
-Crece en lo invisible,<br>
-en lo que aún no ocurre.<br><br>
-
-Yo espero sin cansarme,<br>
-contando días como quien riega una planta:<br>
-con cuidado,<br>
-con fe.<br><br>
-
-Y cuando al fin nos veamos,<br>
-no habrá sorpresa,<br>
-solo reconocimiento,<br>
-como si siempre hubiéramos estado ahí.
+permanece.
 </p>
 
 <div class="page-number">2</div>
 </section>
 
 </main>
-
-<audio id="player"></audio>
 
 <script>
 const songs = [
@@ -239,21 +201,10 @@ const songs = [
 const player = document.getElementById("player");
 let currentSong = 0;
 
-function showPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page'+n).classList.add('active');
-}
-
-function toggleMenu(){
-  const list = document.getElementById("musicList");
-  list.style.display = list.style.display === "block" ? "none" : "block";
-}
-
 function playMusic(index){
   currentSong = index;
   player.src = songs[index];
   player.play();
-  document.getElementById("musicList").style.display = "none";
 }
 
 function playRandom(){
@@ -261,14 +212,18 @@ function playRandom(){
   playMusic(r);
 }
 
-function togglePlay(){
-  if(!player.src){
-    playMusic(currentSong);
-  }else if(player.paused){
-    player.play();
-  }else{
-    player.pause();
+/* Reproducción continua */
+player.addEventListener("ended", ()=>{
+  currentSong++;
+  if(currentSong >= songs.length){
+    currentSong = 0;
   }
+  playMusic(currentSong);
+});
+
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
 }
 </script>
 
