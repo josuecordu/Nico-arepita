@@ -3,23 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Arepita</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body{
   margin:0;
   background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);
   font-family:'Playfair Display',serif;
-  color:#2b2b2b;
 }
 
 header{
   text-align:center;
-  padding:1.5rem 1rem 0.5rem;
   color:#fff;
+  padding:1.5rem 1rem .5rem;
 }
 
 header h1{
@@ -27,8 +25,49 @@ header h1{
   font-size:2.6rem;
 }
 
+/* ===== REPRODUCTOR ===== */
+.player{
+  max-width:700px;
+  margin:1rem auto;
+  background:rgba(0,0,0,.6);
+  border-radius:10px;
+  padding:1rem;
+  color:#fff;
+}
+
+.song-title{
+  text-align:center;
+  font-size:.95rem;
+  margin-bottom:.5rem;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:1rem;
+}
+
+.controls button{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.4rem;
+}
+
+.progress{
+  width:100%;
+  margin:.5rem 0;
+}
+
+.volume{
+  width:100%;
+}
+
+/* ===== LIBRO ===== */
 nav{
-  margin-top:1rem;
+  text-align:center;
+  margin-top:.5rem;
 }
 
 nav button{
@@ -40,42 +79,10 @@ nav button{
   border-radius:50%;
 }
 
-/* Reproductor */
-.player-wrapper{
-  max-width:700px;
-  margin:1rem auto 0;
-  padding:0 1rem;
-}
-
-audio{
-  width:100%;
-  margin-top:.5rem;
-}
-
-/* Lista música */
-.music-list{
-  margin-top:.5rem;
-  background:rgba(0,0,0,.55);
-  border-radius:8px;
-  padding:.5rem;
-}
-
-.music-list button{
-  display:block;
-  width:100%;
-  background:none;
-  border:none;
-  color:#fff;
-  padding:.4rem;
-  text-align:left;
-}
-
-/* Libro */
 main{
   display:flex;
   justify-content:center;
   padding:1.5rem;
-  padding-bottom:4rem;
 }
 
 .page{
@@ -83,12 +90,10 @@ main{
   background:#fdf8f2;
   max-width:700px;
   width:100%;
-  min-height:60vh;
   padding:2rem;
   border-radius:6px;
   box-shadow:0 10px 25px rgba(0,0,0,.35);
   line-height:1.7;
-  font-size:1.05rem;
 }
 
 .page.active{display:block;}
@@ -96,13 +101,12 @@ main{
 .page h2{
   text-align:center;
   font-weight:500;
-  margin-bottom:1.5rem;
 }
 
 .page-number{
   text-align:center;
   margin-top:2rem;
-  font-size:.85rem;
+  font-size:.8rem;
   color:#777;
 }
 </style>
@@ -119,26 +123,25 @@ main{
 </nav>
 </header>
 
-<!-- REPRODUCTOR COMPLETO -->
-<div class="player-wrapper">
+<!-- ===== REPRODUCTOR ===== -->
+<div class="player">
+  <div class="song-title" id="songTitle">—</div>
 
-<audio id="player" controls></audio>
+  <input type="range" id="progress" class="progress" value="0">
 
-<div class="music-list">
-  <button onclick="playMusic(0)">🎵 Te Amo y Más</button>
-  <button onclick="playMusic(1)">🎵 No Matter Where You Are</button>
-  <button onclick="playMusic(2)">🎵 En las danzas y en los sueños</button>
-  <hr>
-  <button onclick="playRandom()">🔀 Reproducir aleatorio</button>
-</div>
+  <div class="controls">
+    <button onclick="prevSong()">⏮️</button>
+    <button onclick="togglePlay()">▶️</button>
+    <button onclick="nextSong()">⏭️</button>
+  </div>
 
+  <input type="range" id="volume" class="volume" min="0" max="1" step="0.01" value="1">
 </div>
 
 <main>
 
 <section id="page1" class="page active">
 <h2>Fuego a la distancia</h2>
-
 <p>
 Entre mares y kilómetros se esconde tu voz,<br>
 y aun así, me alcanza.<br><br>
@@ -147,19 +150,8 @@ No hay muro que detenga la chispa que encendiste sin tocarme.<br><br>
 
 Eres fuego que no quema, pero arde en cada pensamiento;<br>
 labra el aire con su fuerza,<br>
-y deja en mi pecho un desvelo eterno.<br><br>
-
-Trabajas, brillas, resistes<br>
-mujer hecha de empeño y llama<br>
-y aunque el mundo nos mida en mapas,<br>
-mi alma te busca sin brújula ni calma.<br><br>
-
-Quizá el destino juega con nosotros,<br>
-quizá el tiempo pruebe su poder,<br>
-pero hay miradas que, aunque lejanas,<br>
-encienden más que el amanecer.
+y deja en mi pecho un desvelo eterno.
 </p>
-
 <div class="page-number">1</div>
 </section>
 
@@ -169,61 +161,89 @@ Mientras tanto<br>
 No te tengo,<br>
 pero te sostengo en la calma.<br><br>
 
-Como se sostiene una certeza<br>
-que no necesita pruebas.<br><br>
-
 La distancia no nos separa,<br>
 nos aprende.<br>
 Nos vuelve pacientes,<br>
-nos vuelve verdad.<br><br>
-
-Te extraño sin ruido,<br>
-sin urgencia,<br>
-porque sé que el tiempo<br>
-también sabe amar.<br><br>
-
-Nuestro amor no corre,<br>
-permanece.
+nos vuelve verdad.
 </p>
-
 <div class="page-number">2</div>
 </section>
 
 </main>
 
+<audio id="audio"></audio>
+
 <script>
 const songs = [
-  "El Libro De La Vida - Te Amo Y Más (By_ Diego Luna) (Letra)(M4A_128K)_1.m4a",
-  "El Libro De La Vida - No Matter Where You Are (By_ Diego Luna _ Zoe Saldana) (Sub Español   Lyrics)(M4A_128K).m4a",
-  "En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a"
+  {
+    title: "Te Amo y Más",
+    src: "El Libro De La Vida - Te Amo Y Más (By_ Diego Luna) (Letra)(M4A_128K)_1.m4a"
+  },
+  {
+    title: "No Matter Where You Are",
+    src: "El Libro De La Vida - No Matter Where You Are (By_ Diego Luna _ Zoe Saldana) (Sub Español   Lyrics)(M4A_128K).m4a"
+  },
+  {
+    title: "En las danzas y en los sueños",
+    src: "En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a"
+  }
 ];
 
-const player = document.getElementById("player");
-let currentSong = 0;
+const audio = document.getElementById("audio");
+const title = document.getElementById("songTitle");
+const progress = document.getElementById("progress");
+const volume = document.getElementById("volume");
 
-function playMusic(index){
-  currentSong = index;
-  player.src = songs[index];
-  player.play();
+let index = 0;
+
+function loadSong(i){
+  audio.src = songs[i].src;
+  title.textContent = songs[i].title;
 }
 
-function playRandom(){
-  const r = Math.floor(Math.random() * songs.length);
-  playMusic(r);
-}
+loadSong(index);
 
-/* Reproducción continua */
-player.addEventListener("ended", ()=>{
-  currentSong++;
-  if(currentSong >= songs.length){
-    currentSong = 0;
+function togglePlay(){
+  if(audio.paused){
+    audio.play();
+  }else{
+    audio.pause();
   }
-  playMusic(currentSong);
+}
+
+function nextSong(){
+  index = (index + 1) % songs.length;
+  loadSong(index);
+  audio.play();
+}
+
+function prevSong(){
+  index = (index - 1 + songs.length) % songs.length;
+  loadSong(index);
+  audio.play();
+}
+
+/* CONTINUA AUTOMÁTICAMENTE */
+audio.addEventListener("ended", nextSong);
+
+/* PROGRESO */
+audio.addEventListener("timeupdate", ()=>{
+  progress.max = audio.duration;
+  progress.value = audio.currentTime;
+});
+
+progress.addEventListener("input", ()=>{
+  audio.currentTime = progress.value;
+});
+
+/* VOLUMEN */
+volume.addEventListener("input", ()=>{
+  audio.volume = volume.value;
 });
 
 function showPage(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page'+n).classList.add('active');
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+n).classList.add("active");
 }
 </script>
 
