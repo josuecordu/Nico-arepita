@@ -6,91 +6,75 @@
 <title>Arepita</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 body{
   margin:0;
+  font-family:'Playfair Display', serif;
   background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);
-  font-family:'Playfair Display',serif;
 }
 
 /* HEADER */
 header{
   text-align:center;
+  padding:1.2rem;
   color:#fff;
-  padding:1.5rem 1rem .5rem;
 }
-header h1{ margin:0; font-size:2.6rem; }
+header h1{margin:0;font-size:2.5rem;}
 
-/* PLAYER */
-.player{
+/* REPRODUCTOR */
+.player-wrapper{
   max-width:720px;
-  margin:1rem auto;
-  background:rgba(0,0,0,.6);
-  border-radius:12px;
-  padding:1rem;
-  color:#fff;
-  position:relative;
+  margin:0 auto 0.5rem;
 }
 
-.song-title{
-  text-align:center;
-  font-size:.9rem;
-  margin-bottom:.5rem;
-}
-
-.controls{
+.player{
+  background:#fdf8f2;
+  padding:0.6rem;
+  border-radius:6px 6px 0 0;
   display:flex;
-  justify-content:center;
-  gap:1.4rem;
+  align-items:center;
+  gap:0.6rem;
 }
 
-.controls button,
-.menu-btn{
+.player button{
   background:none;
   border:none;
-  color:#fff;
-  font-size:1.4rem;
+  font-size:1.2rem;
   cursor:pointer;
 }
 
-.progress,.volume{
-  width:100%;
-  margin:.6rem 0;
-}
+.progress{flex:1;}
 
-.menu-btn{
-  position:absolute;
-  top:.5rem;
-  right:.6rem;
+.player-song{
+  background:#fdf8f2;
+  text-align:center;
+  font-size:0.9rem;
+  padding:0.4rem;
+  font-weight:600;
 }
 
 .playlist{
   display:none;
-  background:#111;
-  border-radius:8px;
-  margin-top:.6rem;
+  background:#fdf8f2;
   max-height:220px;
   overflow-y:auto;
+  border-radius:0 0 6px 6px;
 }
-
 .playlist div{
-  padding:.5rem;
-  border-bottom:1px solid #333;
-  font-size:.85rem;
+  padding:0.6rem;
   cursor:pointer;
+  border-top:1px solid #ddd;
+  font-size:0.85rem;
 }
+.playlist div:hover{background:#eee;}
 
-.playlist div:hover{
-  background:#333;
-}
-
-/* BOOK */
+/* LIBRO */
 main{
   display:flex;
   justify-content:center;
-  padding:1.5rem;
+  padding:1rem;
 }
 
 .page{
@@ -98,35 +82,37 @@ main{
   background:#fdf8f2;
   max-width:720px;
   width:100%;
-  padding:2.2rem;
+  padding:2rem;
   border-radius:6px;
   box-shadow:0 10px 25px rgba(0,0,0,.35);
+  position:relative;
+}
+.page.active{display:block;}
+
+.poem-content{
+  height:420px;
+  overflow-y:auto;
   line-height:1.8;
 }
 
-.page.active{ display:block; }
-
-.page h2{ text-align:center; }
-
-.page-number{
-  text-align:center;
-  margin-top:2rem;
-  font-size:.8rem;
-  color:#777;
+.favorite{
+  position:absolute;
+  top:18px;
+  right:18px;
+  font-size:1.5rem;
+  cursor:pointer;
+  color:#bbb;
 }
+.favorite.active{color:#c0392b;}
 
-.page-nav{
-  text-align:center;
-  margin-top:1.5rem;
-}
-
+.page-nav{text-align:center;margin-top:1rem;}
 .page-nav button{
-  background:transparent;
   border:1px solid #333;
-  color:#333;
-  padding:.4rem .9rem;
-  margin:.2rem;
+  background:none;
   border-radius:50%;
+  width:32px;
+  height:32px;
+  margin:0 4px;
   cursor:pointer;
 }
 </style>
@@ -135,69 +121,69 @@ main{
 <body>
 
 <header>
-<h1>Arepita</h1>
+  <h1>Arepita</h1>
 </header>
 
-<!-- PLAYER -->
-<div class="player">
-<button class="menu-btn" onclick="toggleMenu()">⋮</button>
+<!-- REPRODUCTOR -->
+<div class="player-wrapper">
+  <div class="player">
+    <button onclick="prevSong()"><i class="fa-solid fa-backward"></i></button>
 
-<div class="song-title" id="songTitle">—</div>
+    <button onclick="togglePlay()" id="playBtn">
+      <i class="fa-regular fa-circle-play"></i>
+    </button>
 
-<input type="range" id="progress" class="progress" value="0">
+    <button onclick="nextSong()"><i class="fa-solid fa-forward"></i></button>
 
-<div class="controls">
-<button onclick="prevSong()">
-  <i class="fa-solid fa-backward"></i>
-</button>
+    <button onclick="toggleShuffle()"><i class="fa-solid fa-shuffle"></i></button>
 
-<button onclick="togglePlay()" id="playBtn">
-  <i class="fa-regular fa-circle-play"></i>
-</button>
+    <input type="range" class="progress">
 
-<button onclick="nextSong()">
-  <i class="fa-solid fa-forward"></i>
-</button>
+    <button onclick="togglePlaylist()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+  </div>
 
-<button onclick="toggleRandom()">
-  <i class="fa-solid fa-shuffle"></i>
-</button>
+  <div class="player-song" id="songName">—</div>
+  <div class="playlist" id="playlist"></div>
 </div>
 
-<input type="range" id="volume" class="volume" min="0" max="1" step="0.01" value="1">
-
-<div class="playlist" id="playlist"></div>
-</div>
+<audio id="audio"></audio>
 
 <main>
 
-<section id="page1" class="page active">
+<!-- POEMA 1 -->
+<section class="page active" data-page="0">
+<span class="favorite" onclick="toggleFavorite(0)">♥</span>
 <h2>Fuego a la distancia</h2>
-<p>
+<div class="poem-content">
 Entre mares y kilómetros se esconde tu voz,<br>
 y aun así, me alcanza.<br><br>
 No hay muro que detenga la chispa que encendiste sin tocarme.<br><br>
 Eres fuego que no quema, pero arde en cada pensamiento;<br>
 labra el aire con su fuerza, y deja en mi pecho un desvelo eterno.<br><br>
-Trabajas, brillas, resistes mujer hecha de empeño y llama<br>
-y aunque el mundo nos mida en mapas, mi alma te busca sin brújula ni calma.<br><br>
-Quizá el destino juega con nosotros, quizá el tiempo pruebe su poder,<br>
-pero hay miradas que, aunque lejanas, encienden más que el amanecer.
-</p>
-<div class="page-number">1</div>
+Trabajas, brillas, resistes,<br>
+mujer hecha de empeño y llama,<br>
+y aunque el mundo nos mida en mapas,<br>
+mi alma te busca sin brújula ni calma.<br><br>
+Quizá el destino juega con nosotros,<br>
+quizá el tiempo pruebe su poder,<br>
+pero hay miradas que, aunque lejanas,<br>
+encienden más que el amanecer.
+</div>
 <div class="page-nav">
-<button onclick="showPage(1)">1</button>
-<button onclick="showPage(2)">2</button>
-<button onclick="showPage(3)">3</button>
-<button onclick="showPage(4)">4</button>
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
 </div>
 </section>
 
-<section id="page2" class="page">
-<p>
-Mientras tanto<br>
+<!-- POEMA 2 -->
+<section class="page" data-page="1">
+<span class="favorite" onclick="toggleFavorite(1)">♥</span>
+<h2>Mientras tanto</h2>
+<div class="poem-content">
 No te tengo,<br>
-pero te sostengo en la calma.<br><br>
+pero te sostengo en la calma.<br>
 Como se sostiene una certeza<br>
 que no necesita pruebas.<br><br>
 La distancia no nos separa,<br>
@@ -207,157 +193,252 @@ nos vuelve verdad.<br><br>
 Te extraño sin ruido,<br>
 sin urgencia,<br>
 porque sé que el tiempo<br>
-también sabe amar.
-</p>
-<div class="page-number">2</div>
+también sabe amar.<br><br>
+Nuestro amor no corre,<br>
+permanece.<br>
+Crece en lo invisible,<br>
+en lo que aún no ocurre.<br><br>
+Yo espero sin cansarme,<br>
+contando días como quien riega una planta:<br>
+con cuidado,<br>
+con fe.
+</div>
 <div class="page-nav">
-<button onclick="showPage(1)">1</button>
-<button onclick="showPage(2)">2</button>
-<button onclick="showPage(3)">3</button>
-<button onclick="showPage(4)">4</button>
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
 </div>
 </section>
 
-<section id="page3" class="page">
+<!-- POEMA 3 -->
+<section class="page" data-page="2">
+<span class="favorite" onclick="toggleFavorite(2)">♥</span>
 <h2>Te anhelo</h2>
-<p>
-como el cielo anhela al sol cuando cae la tarde.<br><br>
+<div class="poem-content">
+Como el cielo anhela al sol cuando cae la tarde.<br><br>
 No con desesperación, sino con esa certeza suave de que volverá a tocarlo.<br><br>
-Así te pienso,<br><br>
-como se piensan los atardeceres: con paciencia, con esperanza quieta.<br><br>
-Quisiera tenerte cerca para aprender tus silencios, para quedarme en tu calma cuando el día se cansa.<br><br>
-Porque así como el cielo espera la luz dorada, yo espero el momento en que tu presencia sea parte del paisaje.<br><br>
-Y cuando estés aquí,<br><br>
-no hará falta decir nada<br><br>
+Así te pienso,<br>
+como se piensan los atardeceres:<br>
+con paciencia,<br>
+con esperanza quieta.<br><br>
+Quisiera tenerte cerca para aprender tus silencios,<br>
+para quedarme en tu calma cuando el día se cansa.<br><br>
+Porque así como el cielo espera la luz dorada,<br>
+yo espero el momento en que tu presencia sea parte del paisaje.<br><br>
+Y cuando estés aquí,<br>
+no hará falta decir nada,<br>
 el anhelo sabrá que valió la pena.
-</p>
-<div class="page-number">3</div>
+</div>
 <div class="page-nav">
-<button onclick="showPage(1)">1</button>
-<button onclick="showPage(2)">2</button>
-<button onclick="showPage(3)">3</button>
-<button onclick="showPage(4)">4</button>
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
 </div>
 </section>
 
-<section id="page4" class="page">
-<p>
+<!-- POEMA 4 -->
+<section class="page" data-page="3">
+<span class="favorite" onclick="toggleFavorite(3)">♥</span>
+<h2>Destino</h2>
+<div class="poem-content">
 Hay mujeres bellas, y luego estás tú.<br><br>
-No por la forma exacta de tu rostro, sino por esa mirada donde el mundo baja la voz.<br><br>
-Tus ojos no miran,<br><br>
+No por la forma exacta de tu rostro,<br>
+sino por esa mirada donde el mundo baja la voz.<br><br>
+Tus ojos no miran,<br>
 invitan.<br><br>
-Uno entra sin darse cuenta<br><br>
+Uno entra sin darse cuenta<br>
 y se pierde con gusto.<br><br>
-Tu belleza no se exhibe,<br><br>
+En ellos el tiempo se equivoca,<br>
+las prisas se rinden,<br>
+y hasta mis pensamientos aprenden a caminar descalzos.<br><br>
+Tu belleza no se exhibe,<br>
 sucede.<br><br>
-Es ese instante<br><br>
-en que alguien te mira<br><br>
-y ya no quiere volver a encontrarse.<br><br>
-Porque perderse en tus ojos<br><br>
-no es error,<br><br>
+Porque perderse en tus ojos<br>
+no es error,<br>
 es destino.
-</p>
-<div class="page-number">4</div>
+</div>
 <div class="page-nav">
-<button onclick="showPage(1)">1</button>
-<button onclick="showPage(2)">2</button>
-<button onclick="showPage(3)">3</button>
-<button onclick="showPage(4)">4</button>
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
 </div>
 </section>
 
 </main>
 
-<audio id="audio"></audio>
-
 <script>
-const songs = [
-  { title: "Combustión - Jósean Log", src: "Combustión - Jósean Log(MP3_160K).mp3" },
-  { title: "Te Amo y Más - Diego Luna", src: "Diego Luna - Te Amo Y Más (Letra)(MP3_160K).mp3" },
-  { title: "No Matter Where You Are", src: "el libro de la vida - No Matter Where You Are _ letra en español(MP3_160K).mp3" },
-  { title: "En las danzas y en los sueños", src: "En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a" },
-  { title: "Mariposas - Enanitos Verdes", src: "Enanitos Verdes - Mariposas(MP3_160K).mp3" },
-  { title: "Frances Limón", src: "Frances Limon(MP3_160K).mp3" },
-  { title: "Freebola - Glup!", src: "Glup_ -  Freebola (Video Oficial Remasterizado)(MP3_160K).mp3" },
-  { title: "Si no te tengo a ti - Hombres G", src: "Hombres G - Si no te tengo a ti (Audio Oficial)(MP3_160K).mp3" },
-  { title: "Igual Que Ayer", src: "Igual Que Ayer(MP3_160K).mp3" },
-  { title: "Jacaranda - Jósean Log", src: "Jósean Log - Jacaranda (lyric video)(MP3_160K).mp3" },
-  { title: "Pruébame a Ti - Jósean Log", src: "Jósean Log - Pruébame a Ti (video oficial)(MP3_160K).mp3" },
-  { title: "Si Hay Algo - Jósean Log", src: "Jósean Log - Si Hay Algo (video oficial)(MP3_160K).mp3" },
-  { title: "Como Tú - León", src: "León - Como Tú (video oficial con letra)(MP3_160K).mp3" },
-  { title: "Amárrame - Mon Laferte", src: "Mon Laferte - Amárrame ft. Juanes(MP3_160K).mp3" },
-  { title: "Amor Completo - Mon Laferte", src: "Mon Laferte - Amor Completo(MP3_160K).mp3" },
-  { title: "Química Mayor", src: "Química Mayor(MP3_160K).mp3" },
-  { title: "Bonita", src: "Bonita (Bonus Track)(MP3_160K)_1.mp3" }
+const pages=document.querySelectorAll('.page');
+function showPage(n){
+  pages.forEach(p=>p.classList.remove('active'));
+  pages[n].classList.add('active');
+}
+
+/* FAVORITOS */
+let favorites=JSON.parse(localStorage.getItem("favorites"))||[];
+function toggleFavorite(i){
+  const heart=document.querySelector(`.page[data-page="${i}"] .favorite`);
+  if(favorites.includes(i)){
+    favorites=favorites.filter(f=>f!==i);
+    heart.classList.remove("active");
+  }else{
+    favorites.push(i);
+    heart.classList.add("active");
+  }
+  localStorage.setItem("favorites",JSON.stringify(favorites));
+}
+favorites.forEach(i=>{
+  const h=document.querySelector(`.page[data-page="${i}"] .favorite`);
+  if(h)h.classList.add("active");
+});
+
+/* MÚSICA */
+/* ===== PÁGINAS, FAVORITOS Y MÚSICA ===== */
+const pages=document.querySelectorAll('.page');
+function showPage(n){
+  pages.forEach(p=>p.classList.remove('active'));
+  pages[n].classList.add('active');
+}
+
+/* FAVORITOS */
+let favorites=JSON.parse(localStorage.getItem("favorites"))||[];
+function toggleFavorite(i){
+  const heart=document.querySelector(`.page[data-page="${i}"] .favorite`);
+  if(favorites.includes(i)){
+    favorites=favorites.filter(f=>f!==i);
+    heart.classList.remove("active");
+  }else{
+    favorites.push(i);
+    heart.classList.add("active");
+  }
+  localStorage.setItem("favorites",JSON.stringify(favorites));
+}
+favorites.forEach(i=>{
+  const h=document.querySelector(`.page[data-page="${i}"] .favorite`);
+  if(h)h.classList.add("active");
+});
+
+/* MÚSICA */
+const songs=[
+"Combustión - Jósean Log(MP3_160K).mp3",
+"Diego Luna - Te Amo Y Más (Letra)(MP3_160K).mp3",
+"el libro de la vida - No Matter Where You Are _ letra en español(MP3_160K).mp3",
+"En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a",
+"Enanitos Verdes - Mariposas(MP3_160K).mp3",
+"Frances Limon(MP3_160K).mp3",
+"Glup_ -  Freebola (Video Oficial Remasterizado)(MP3_160K).mp3",
+"Hombres G - Si no te tengo a ti (Audio Oficial)(MP3_160K).mp3",
+"Igual Que Ayer(MP3_160K).mp3",
+"Jósean Log - Jacaranda (lyric video)(MP3_160K).mp3",
+"Jósean Log - Pruébame a Ti (video oficial)(MP3_160K).mp3",
+"Jósean Log - Si Hay Algo (video oficial)(MP3_160K).mp3",
+"León - Como Tú (video oficial con letra)(MP3_160K).mp3",
+"Mon Laferte - Amárrame ft. Juanes(MP3_160K).mp3",
+"Mon Laferte - Amor Completo(MP3_160K).mp3",
+"Química Mayor(MP3_160K).mp3",
+"Bonita (Bonus Track)(MP3_160K)_1.mp3"
 ];
 
 const audio=document.getElementById("audio");
-const title=document.getElementById("songTitle");
-const progress=document.getElementById("progress");
-const volume=document.getElementById("volume");
+const songName=document.getElementById("songName");
 const playlist=document.getElementById("playlist");
 const playBtn=document.getElementById("playBtn");
-
 let index=0;
-let random=false;
+let shuffle=false;
+
+function cleanName(n){
+  return n.replace(/\(.*?\)|\.mp3|\.m4a/gi,"").trim();
+}
 
 songs.forEach((s,i)=>{
-  const d=document.createElement("div");
-  d.textContent=s.title;
-  d.onclick=()=>{index=i;load();audio.play();updateBtn(true);}
-  playlist.appendChild(d);
+  const div=document.createElement("div");
+  div.textContent=cleanName(s);
+  div.onclick=()=>{index=i;loadSong();}
+  playlist.appendChild(div);
 });
 
-function load(){
-  audio.src=songs[index].src;
-  title.textContent=songs[index].title;
-}
-load();
-
-function updateBtn(playing){
-  playBtn.innerHTML=playing
-    ?'<i class="fa-solid fa-stop"></i>'
-    :'<i class="fa-regular fa-circle-play"></i>';
+function loadSong(){
+  audio.src=songs[index];
+  songName.textContent=cleanName(songs[index]);
+  audio.play();
+  playBtn.innerHTML='<i class="fa-solid fa-stop"></i>';
 }
 
 function togglePlay(){
   if(audio.paused){
-    audio.play();updateBtn(true);
+    audio.play();
+    playBtn.innerHTML='<i class="fa-solid fa-stop"></i>';
   }else{
-    audio.pause();updateBtn(false);
+    audio.pause();
+    playBtn.innerHTML='<i class="fa-regular fa-circle-play"></i>';
   }
 }
 
 function nextSong(){
-  index=random?Math.floor(Math.random()*songs.length):(index+1)%songs.length;
-  load();audio.play();updateBtn(true);
+  index = shuffle ? Math.floor(Math.random()*songs.length) : (index+1)%songs.length;
+  loadSong();
 }
-
 function prevSong(){
   index=(index-1+songs.length)%songs.length;
-  load();audio.play();updateBtn(true);
+  loadSong();
 }
+function toggleShuffle(){shuffle=!shuffle;}
 
-function toggleRandom(){random=!random;}
-
-audio.onended=nextSong;
-
-audio.ontimeupdate=()=>{
-  progress.max=audio.duration||0;
-  progress.value=audio.currentTime||0;
-};
-
-progress.oninput=()=>audio.currentTime=progress.value;
-volume.oninput=()=>audio.volume=volume.value;
-
-function toggleMenu(){
+function togglePlaylist(){
   playlist.style.display=playlist.style.display==="block"?"none":"block";
 }
 
-function showPage(n){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("page"+n).classList.add("active");
+/* BARRA DE PROGRESO */
+audio.ontimeupdate=()=>{
+  if(audio.duration){
+    const progressBar=document.querySelector(".progress");
+    progressBar.max=audio.duration;
+    progressBar.value=audio.currentTime;
+  }
+};
+
+document.querySelector(".progress").oninput=(e)=>{
+  audio.currentTime=e.target.value;
+};
+
+loadSong();
+  playlist.appendChild(div);
+});
+
+function loadSong(){
+  audio.src=songs[index];
+  songName.textContent=cleanName(songs[index]);
+  audio.play();
+  playBtn.innerHTML='<i class="fa-solid fa-stop"></i>';
 }
+
+function togglePlay(){
+  if(audio.paused){
+    audio.play();
+    playBtn.innerHTML='<i class="fa-solid fa-stop"></i>';
+  }else{
+    audio.pause();
+    playBtn.innerHTML='<i class="fa-regular fa-circle-play"></i>';
+  }
+}
+
+function nextSong(){
+  index = shuffle ? Math.floor(Math.random()*songs.length) : (index+1)%songs.length;
+  loadSong();
+}
+function prevSong(){
+  index=(index-1+songs.length)%songs.length;
+  loadSong();
+}
+function toggleShuffle(){shuffle=!shuffle;}
+
+function togglePlaylist(){
+  playlist.style.display=playlist.style.display==="block"?"none":"block";
+}
+
+loadSong();
 </script>
 
 </body>
