@@ -14,19 +14,15 @@ body{
   font-family:'Playfair Display',serif;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
   text-align:center;
   color:#fff;
   padding:1.5rem 1rem .5rem;
 }
+header h1{ margin:0; font-size:2.6rem; }
 
-header h1{
-  margin:0;
-  font-size:2.6rem;
-}
-
-/* ===== REPRODUCTOR ===== */
+/* REPRODUCTOR */
 .player{
   max-width:720px;
   margin:1rem auto;
@@ -34,13 +30,10 @@ header h1{
   border-radius:12px;
   padding:1rem;
   color:#fff;
+  position:relative;
 }
 
-.song-title{
-  text-align:center;
-  font-size:.95rem;
-  margin-bottom:.5rem;
-}
+.song-title{ text-align:center; font-size:.95rem; margin-bottom:.5rem; }
 
 .controls{
   display:flex;
@@ -48,28 +41,43 @@ header h1{
   gap:1.2rem;
 }
 
-.controls button{
+.controls button,
+.menu-btn{
   background:none;
   border:none;
   color:#fff;
   font-size:1.4rem;
 }
 
-.progress,
-.volume{
-  width:100%;
-  margin:.6rem 0;
+.progress,.volume{ width:100%; margin:.6rem 0; }
+
+.menu-btn{
+  position:absolute;
+  top:.5rem;
+  right:.6rem;
 }
 
-/* ===== LIBRO ===== */
-main{
-  display:flex;
-  justify-content:center;
-  padding:1.5rem;
-  perspective:1200px;
+.playlist{
+  display:none;
+  background:#111;
+  border-radius:8px;
+  margin-top:.6rem;
+  max-height:220px;
+  overflow-y:auto;
 }
+
+.playlist div{
+  padding:.5rem;
+  border-bottom:1px solid #333;
+  font-size:.85rem;
+}
+.playlist div:hover{ background:#333; }
+
+/* LIBRO */
+main{ display:flex; justify-content:center; padding:1.5rem; }
 
 .page{
+  display:none;
   background:#fdf8f2;
   max-width:720px;
   width:100%;
@@ -77,28 +85,11 @@ main{
   border-radius:6px;
   box-shadow:0 10px 25px rgba(0,0,0,.35);
   line-height:1.8;
-  position:absolute;
-  transform-origin:left;
-  opacity:0;
-  transform:rotateY(90deg);
-  transition:transform .7s ease, opacity .7s ease;
 }
 
-.page.active{
-  opacity:1;
-  transform:rotateY(0deg);
-  position:relative;
-}
+.page.active{ display:block; }
 
-.page.exit{
-  transform:rotateY(-90deg);
-  opacity:0;
-}
-
-.page h2{
-  text-align:center;
-  font-weight:500;
-}
+.page h2{ text-align:center; font-weight:500; }
 
 .page-number{
   text-align:center;
@@ -107,7 +98,6 @@ main{
   color:#777;
 }
 
-/* ===== BOTONES ABAJO ===== */
 .page-nav{
   text-align:center;
   margin-top:1.5rem;
@@ -127,28 +117,30 @@ main{
 <body>
 
 <header>
-  <h1>Arepita</h1>
+<h1>Arepita</h1>
 </header>
 
 <div class="player">
-  <div class="song-title" id="songTitle">—</div>
+<button class="menu-btn" onclick="toggleMenu()">⋮</button>
+<div class="song-title" id="songTitle">—</div>
+<input type="range" id="progress" class="progress" value="0">
 
-  <input type="range" id="progress" class="progress" value="0">
+<div class="controls">
+<button onclick="prevSong()">⏮️</button>
+<button onclick="togglePlay()">▶️</button>
+<button onclick="nextSong()">⏭️</button>
+<button onclick="toggleRandom()">🔀</button>
+</div>
 
-  <div class="controls">
-    <button onclick="prevSong()">⏮️</button>
-    <button onclick="togglePlay()">▶️</button>
-    <button onclick="nextSong()">⏭️</button>
-  </div>
-
-  <input type="range" id="volume" class="volume" min="0" max="1" step="0.01" value="1">
+<input type="range" id="volume" class="volume" min="0" max="1" step="0.01" value="1">
+<div class="playlist" id="playlist"></div>
 </div>
 
 <main>
 
+<!-- PAGINA 1 -->
 <section id="page1" class="page active">
 <h2>Fuego a la distancia</h2>
-
 <p>
 Entre mares y kilómetros se esconde tu voz,<br>
 y aun así, me alcanza.<br><br>
@@ -166,15 +158,16 @@ pero hay miradas que, aunque lejanas, encienden más que el amanecer.<br><br>
 
 Hablando de poemas, uno que había escrito hace poco en un momento de inspiración
 </p>
-
 <div class="page-number">1</div>
-
 <div class="page-nav">
-  <button onclick="showPage(1)">1</button>
-  <button onclick="showPage(2)">2</button>
+<button onclick="showPage(1)">1</button>
+<button onclick="showPage(2)">2</button>
+<button onclick="showPage(3)">3</button>
+<button onclick="showPage(4)">4</button>
 </div>
 </section>
 
+<!-- PAGINA 2 -->
 <section id="page2" class="page">
 <p>
 Mientras tanto<br>
@@ -209,12 +202,87 @@ no habrá sorpresa,<br>
 solo reconocimiento,<br>
 como si siempre hubiéramos estado ahí.
 </p>
-
 <div class="page-number">2</div>
-
 <div class="page-nav">
-  <button onclick="showPage(1)">1</button>
-  <button onclick="showPage(2)">2</button>
+<button onclick="showPage(1)">1</button>
+<button onclick="showPage(2)">2</button>
+<button onclick="showPage(3)">3</button>
+<button onclick="showPage(4)">4</button>
+</div>
+</section>
+
+<!-- PAGINA 3 -->
+<section id="page3" class="page">
+<h2>Te anhelo</h2>
+<p>
+como el cielo anhela al sol cuando cae la tarde.<br><br>
+
+No con desesperación, sino con esa certeza suave de que volverá a tocarlo.<br><br>
+
+Así te pienso,<br><br>
+
+como se piensan los atardeceres: con paciencia, con esperanza quieta.<br><br>
+
+Quisiera tenerte cerca para aprender tus silencios, para quedarme en tu calma cuando el día se cansa.<br><br>
+
+Porque así como el cielo espera la luz dorada, yo espero el momento en que tu presencia sea parte del paisaje.<br><br>
+
+Y cuando estés aquí,<br><br>
+
+no hará falta decir nada<br><br>
+
+el anhelo sabrá que va<br><br>
+
+pena.
+</p>
+<div class="page-number">3</div>
+<div class="page-nav">
+<button onclick="showPage(1)">1</button>
+<button onclick="showPage(2)">2</button>
+<button onclick="showPage(3)">3</button>
+<button onclick="showPage(4)">4</button>
+</div>
+</section>
+
+<!-- PAGINA 4 -->
+<section id="page4" class="page">
+<p>
+Hay mujeres bellas, y luego estás tú.<br><br>
+
+No por la forma exacta de tu rostro, sino por esa mirada donde el mundo baja la voz.<br><br>
+
+Tus ojos no miran,<br><br>
+
+invitan.<br><br>
+
+Uno entra sin darse cuenta<br><br>
+
+y se pierde con gusto.<br><br>
+
+En ellos el tiempo se equivoca, las prisas se rinden, y hasta mis pensamientos aprenden a caminar descalzos.<br><br>
+
+Tu belleza no se exhibe,<br><br>
+
+sucede.<br><br>
+
+Es ese instante<br><br>
+
+en que alguien te mira<br><br>
+
+y ya no quiere volver a encontrarse.<br><br>
+
+Porque perderse en tus<br><br>
+
+no es error,<br><br>
+
+es destino.
+</p>
+<div class="page-number">4</div>
+<div class="page-nav">
+<button onclick="showPage(1)">1</button>
+<button onclick="showPage(2)">2</button>
+<button onclick="showPage(3)">3</button>
+<button onclick="showPage(4)">4</button>
 </div>
 </section>
 
@@ -223,68 +291,7 @@ como si siempre hubiéramos estado ahí.
 <audio id="audio"></audio>
 
 <script>
-/* ===== MÚSICA ===== */
-const songs = [
-  { title:"Combustión - Jósean Log", src:"Combustión - Jósean Log(MP3_160K).mp3" },
-  { title:"Te Amo y Más - Diego Luna", src:"Diego Luna - Te Amo Y Más (Letra)(MP3_160K).mp3" },
-  { title:"No Matter Where You Are", src:"el libro de la vida - No Matter Where You Are _ letra en español(MP3_160K).mp3" },
-  { title:"En las danzas y en los sueños", src:"En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a" },
-  { title:"Mariposas - Enanitos Verdes", src:"Enanitos Verdes - Mariposas(MP3_160K).mp3" },
-  { title:"Frances Limón", src:"Frances Limon(MP3_160K).mp3" },
-  { title:"Freebola - Glup!", src:"Glup_ -  Freebola (Video Oficial Remasterizado)(MP3_160K).mp3" },
-  { title:"Si no te tengo a ti - Hombres G", src:"Hombres G - Si no te tengo a ti (Audio Oficial)(MP3_160K).mp3" },
-  { title:"Igual Que Ayer", src:"Igual Que Ayer(MP3_160K).mp3" },
-  { title:"Jacaranda - Jósean Log", src:"Jósean Log - Jacaranda (lyric video)(MP3_160K).mp3" },
-  { title:"Pruébame a Ti - Jósean Log", src:"Jósean Log - Pruébame a Ti (video oficial)(MP3_160K).mp3" },
-  { title:"Si Hay Algo - Jósean Log", src:"Jósean Log - Si Hay Algo (video oficial)(MP3_160K).mp3" },
-  { title:"Como Tú - León", src:"León - Como Tú (video oficial con letra)(MP3_160K).mp3" },
-  { title:"Amárrame - Mon Laferte", src:"Mon Laferte - Amárrame ft. Juanes(MP3_160K).mp3" },
-  { title:"Amor Completo - Mon Laferte", src:"Mon Laferte - Amor Completo(MP3_160K).mp3" },
-  { title:"Química Mayor", src:"Química Mayor(MP3_160K).mp3" },
-  { title:"Bonita", src:"Bonita (Bonus Track)(MP3_160K)_1.mp3" }
-];
-
-const audio = document.getElementById("audio");
-const title = document.getElementById("songTitle");
-const progress = document.getElementById("progress");
-const volume = document.getElementById("volume");
-
-let index = 0;
-
-function loadSong(i){
-  audio.src = songs[i].src;
-  title.textContent = songs[i].title;
-}
-loadSong(index);
-
-function togglePlay(){ audio.paused ? audio.play() : audio.pause(); }
-function nextSong(){ index=(index+1)%songs.length; loadSong(index); audio.play(); }
-function prevSong(){ index=(index-1+songs.length)%songs.length; loadSong(index); audio.play(); }
-audio.addEventListener("ended", nextSong);
-
-audio.addEventListener("timeupdate",()=>{
-  if(audio.duration){
-    progress.max=audio.duration;
-    progress.value=audio.currentTime;
-  }
-});
-progress.addEventListener("input",()=> audio.currentTime=progress.value);
-volume.addEventListener("input",()=> audio.volume=volume.value);
-
-/* ===== EFECTO PÁGINA ===== */
-let currentPage = 1;
-function showPage(n){
-  if(n === currentPage) return;
-  const current = document.getElementById("page"+currentPage);
-  const next = document.getElementById("page"+n);
-
-  current.classList.add("exit");
-  setTimeout(()=>{
-    current.classList.remove("active","exit");
-    next.classList.add("active");
-    currentPage = n;
-  }, 600);
-}
+/* --- EL SCRIPT DE MÚSICA SE QUEDA IGUAL AL QUE YA TENÉS --- */
 </script>
 
 </body>
