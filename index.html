@@ -316,16 +316,6 @@ const songs=[
 ];
 
 const audio=document.getElementById("audio");
-const progress = document.getElementById("progress");
-
-audio.ontimeupdate = () => {
-  progress.max = audio.duration || 0;
-  progress.value = audio.currentTime || 0;
-};
-
-progress.oninput = () => {
-  audio.currentTime = progress.value;
-};
 const songName=document.getElementById("songName");
 const playlist=document.getElementById("playlist");
 const playBtn=document.getElementById("playBtn");
