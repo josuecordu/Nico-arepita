@@ -316,7 +316,7 @@ const songs=[
 ];
 
 const audio=document.getElementById("audio");
-  const progress = document.getElementById("progress");
+const progress = document.getElementById("progress");
 
 audio.ontimeupdate = () => {
   progress.max = audio.duration || 0;
