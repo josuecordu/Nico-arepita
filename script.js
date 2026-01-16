@@ -102,7 +102,7 @@ songs.forEach((song, i) => {
    CONTROLES
 ========================= */
 function loadSong(){
-  audio.src = songs[index].file;
+  audio.src = encodeURI(songs[index].file);
   songName.textContent = cleanName(songs[index].file);
   audio.play();
   playBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
