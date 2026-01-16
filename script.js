@@ -54,7 +54,7 @@ const songs = [
   { file: "Mon Laferte - Amor Completo(MP3_160K).mp3" },
   { file: "Química Mayor(MP3_160K).mp3" },
 
-  /* 🎵 NUEVAS */
+  /* 🎵 NEW */
   { file: "Bonita (Bonus Track)(MP3_160K)_1.mp3", isNew: true },
   { file: "La Gloria Eres Tu(MP3_160K).mp3", isNew: true }
 ];
@@ -91,7 +91,7 @@ songs.forEach((song, i) => {
   if(song.isNew){
     const badge = document.createElement("span");
     badge.className = "new-badge";
-    badge.textContent = "NUEVA";
+    badge.textContent = "NEW"; // 🔴 CAMBIO AQUÍ
     item.appendChild(badge);
   }
 
@@ -155,7 +155,7 @@ document.querySelector(".progress").oninput = e => {
 };
 
 /* =========================
-   EXPONER FUNCIONES AL HTML
+   EXPONER FUNCIONES
 ========================= */
 window.togglePlay = togglePlay;
 window.nextSong = nextSong;
