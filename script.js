@@ -1,12 +1,20 @@
-/* NAVEGACIÓN PÁGINAS */
+document.addEventListener("DOMContentLoaded", () => {
+
+/* =========================
+   NAVEGACIÓN PÁGINAS
+========================= */
 const pages = document.querySelectorAll('.page');
 function showPage(n){
   pages.forEach(p => p.classList.remove('active'));
   pages[n].classList.add('active');
 }
+window.showPage = showPage;
 
-/* FAVORITOS */
+/* =========================
+   FAVORITOS
+========================= */
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
 function toggleFavorite(i){
   const heart = document.querySelector(`.page[data-page="${i}"] .favorite`);
   if(favorites.includes(i)){
@@ -18,12 +26,16 @@ function toggleFavorite(i){
   }
   localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-favorites.forEach(i=>{
+window.toggleFavorite = toggleFavorite;
+
+favorites.forEach(i => {
   const h = document.querySelector(`.page[data-page="${i}"] .favorite`);
   if(h) h.classList.add("active");
 });
 
-/* MÚSICA */
+/* =========================
+   MÚSICA
+========================= */
 const songs = [
   { file: "Combustión - Jósean Log(MP3_160K).mp3" },
   { file: "Diego Luna - Te Amo Y Más (Letra)(MP3_160K).mp3" },
@@ -31,7 +43,7 @@ const songs = [
   { file: "En las danzas y en los sueños - Estoico _ Valka (Cómo Entrenar a Tu Dragón 2)  _ _Letra_(M4A_128K).m4a" },
   { file: "Enanitos Verdes - Mariposas(MP3_160K).mp3" },
   { file: "Frances Limon(MP3_160K).mp3" },
-  { file: "Glup_ -  Freebola (Video Oficial Remasterizado)(MP3_160K).mp3" },
+  { file: "Glup_ - Freebola (Video Oficial Remasterizado)(MP3_160K).mp3" },
   { file: "Hombres G - Si no te tengo a ti (Audio Oficial)(MP3_160K).mp3" },
   { file: "Igual Que Ayer(MP3_160K).mp3" },
   { file: "Jósean Log - Jacaranda (lyric video)(MP3_160K).mp3" },
@@ -55,30 +67,40 @@ const playBtn = document.getElementById("playBtn");
 let index = 0;
 let shuffle = false;
 
-function cleanName(n){
-  return n.replace(/\(.*?\)|\.mp3|\.m4a/gi, "").trim();
+function cleanName(name){
+  return name.replace(/\(.*?\)|\.mp3|\.m4a/gi, "").trim();
 }
 
-/* CREAR PLAYLIST */
-songs.forEach((s, i) => {
-  const div = document.createElement("div");
-  div.className = "song-item";
-  div.onclick = () => { index = i; loadSong(); };
+/* =========================
+   CREAR PLAYLIST
+========================= */
+playlist.innerHTML = "";
+
+songs.forEach((song, i) => {
+  const item = document.createElement("div");
+  item.className = "song-item";
+  item.onclick = () => {
+    index = i;
+    loadSong();
+  };
 
   const title = document.createElement("span");
-  title.textContent = cleanName(s.file);
-  div.appendChild(title);
+  title.textContent = cleanName(song.file);
+  item.appendChild(title);
 
-  if (s.isNew) {
+  if(song.isNew){
     const badge = document.createElement("span");
     badge.className = "new-badge";
     badge.textContent = "NUEVA";
-    div.appendChild(badge);
+    item.appendChild(badge);
   }
 
-  playlist.appendChild(div);
+  playlist.appendChild(item);
 });
 
+/* =========================
+   CONTROLES
+========================= */
 function loadSong(){
   audio.src = songs[index].file;
   songName.textContent = cleanName(songs[index].file);
@@ -117,12 +139,14 @@ function togglePlaylist(){
     playlist.style.display === "block" ? "none" : "block";
 }
 
-/* BARRA DE PROGRESO */
+/* =========================
+   PROGRESO
+========================= */
 audio.ontimeupdate = () => {
+  const bar = document.querySelector(".progress");
   if(audio.duration){
-    const progressBar = document.querySelector(".progress");
-    progressBar.max = audio.duration;
-    progressBar.value = audio.currentTime;
+    bar.max = audio.duration;
+    bar.value = audio.currentTime;
   }
 };
 
@@ -130,5 +154,18 @@ document.querySelector(".progress").oninput = e => {
   audio.currentTime = e.target.value;
 };
 
-/* CARGAR PRIMERA CANCIÓN */
+/* =========================
+   EXPONER FUNCIONES AL HTML
+========================= */
+window.togglePlay = togglePlay;
+window.nextSong = nextSong;
+window.prevSong = prevSong;
+window.toggleShuffle = toggleShuffle;
+window.togglePlaylist = togglePlaylist;
+
+/* =========================
+   INICIO
+========================= */
 loadSong();
+
+});
