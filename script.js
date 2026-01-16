@@ -91,7 +91,7 @@ songs.forEach((song, i) => {
   if(song.isNew){
     const badge = document.createElement("span");
     badge.className = "new-badge";
-    badge.textContent = "NEW"; // 🔴 CAMBIO AQUÍ
+    badge.textContent = "NEW";
     item.appendChild(badge);
   }
 
@@ -152,6 +152,13 @@ audio.ontimeupdate = () => {
 
 document.querySelector(".progress").oninput = e => {
   audio.currentTime = e.target.value;
+};
+
+/* =========================
+   AUTO SIGUIENTE CANCIÓN ✅
+========================= */
+audio.onended = () => {
+  nextSong();
 };
 
 /* =========================
