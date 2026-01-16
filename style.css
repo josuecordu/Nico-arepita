@@ -10,7 +10,10 @@ header{
   padding:1.2rem;
   color:#fff;
 }
-header h1{margin:0;font-size:2.5rem;}
+header h1{
+  margin:0;
+  font-size:2.5rem;
+}
 
 /* REPRODUCTOR */
 .player-wrapper{
@@ -34,7 +37,9 @@ header h1{margin:0;font-size:2.5rem;}
   cursor:pointer;
 }
 
-.progress{flex:1;}
+.progress{
+  flex:1;
+}
 
 .player-song{
   background:#fdf8f2;
@@ -53,9 +58,9 @@ header h1{margin:0;font-size:2.5rem;}
   border-radius:0 0 6px 6px;
 }
 
-/* 👇 IMPORTANTE: estructura de canción */
+/* Cada canción */
 .playlist .song-item{
-  padding:0.6rem;
+  padding:0.6rem 0.8rem;
   cursor:pointer;
   border-top:1px solid #ddd;
   font-size:0.85rem;
@@ -68,21 +73,23 @@ header h1{margin:0;font-size:2.5rem;}
   background:#eee;
 }
 
-/* 🔥 ETIQUETA NUEVA */
+/* 🔴 BADGE NEW */
 .new-badge{
-  background:#ff4f9a;
-  color:white;
+  background:#c0392b;
+  color:#fff;
   font-size:10px;
-  padding:3px 7px;
-  border-radius:12px;
+  padding:4px 10px;
+  border-radius:14px;
   font-weight:700;
-  margin-left:10px;
+  letter-spacing:1px;
+  margin-left:12px;
   animation:pulseNew 1.5s infinite;
 }
 
+/* Animación suave */
 @keyframes pulseNew{
   0%{transform:scale(1);opacity:1;}
-  50%{transform:scale(1.15);opacity:.85;}
+  50%{transform:scale(1.1);opacity:.85;}
   100%{transform:scale(1);opacity:1;}
 }
 
@@ -103,7 +110,10 @@ main{
   box-shadow:0 10px 25px rgba(0,0,0,.35);
   position:relative;
 }
-.page.active{display:block;}
+
+.page.active{
+  display:block;
+}
 
 .poem-content{
   height:420px;
@@ -111,7 +121,6 @@ main{
   line-height:1.8;
 }
 
-/* FAVORITO */
 .favorite{
   position:absolute;
   top:18px;
@@ -120,13 +129,17 @@ main{
   cursor:pointer;
   color:#bbb;
 }
-.favorite.active{color:#c0392b;}
+
+.favorite.active{
+  color:#c0392b;
+}
 
 /* NAVEGACIÓN */
 .page-nav{
   text-align:center;
   margin-top:1rem;
 }
+
 .page-nav button{
   border:1px solid #333;
   background:none;
