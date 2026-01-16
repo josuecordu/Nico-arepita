@@ -42,8 +42,9 @@ const songs = [
   { file: "Mon Laferte - Amor Completo(MP3_160K).mp3" },
   { file: "Química Mayor(MP3_160K).mp3" },
 
-  /* 🎵 CANCIÓN NUEVA */
-  { file: "Bonita (Bonus Track)(MP3_160K)_1.mp3", isNew: true }
+  /* 🎵 NUEVAS */
+  { file: "Bonita (Bonus Track)(MP3_160K)_1.mp3", isNew: true },
+  { file: "La Gloria Eres Tu(MP3_160K).mp3", isNew: true }
 ];
 
 const audio = document.getElementById("audio");
