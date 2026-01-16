@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arepita</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>Arepita</h1>
+</header>
+
+<!-- REPRODUCTOR -->
+<div class="player-wrapper">
+  <div class="player">
+    <button onclick="prevSong()"><i class="fa-solid fa-backward"></i></button>
+    <button onclick="togglePlay()" id="playBtn"><i class="fa-regular fa-circle-play"></i></button>
+    <button onclick="nextSong()"><i class="fa-solid fa-forward"></i></button>
+    <button onclick="toggleShuffle()"><i class="fa-solid fa-shuffle"></i></button>
+    <input type="range" class="progress">
+    <button onclick="togglePlaylist()"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+  </div>
+
+  <div class="player-song" id="songName">—</div>
+  <div class="playlist" id="playlist"></div>
+</div>
+
+<audio id="audio"></audio>
+
+<main>
+
+<!-- POEMAS -->
+<section class="page active" data-page="0">
+<span class="favorite" onclick="toggleFavorite(0)">♥</span>
+<h2>Fuego a la distancia</h2>
+<div class="poem-content">
+Entre mares y kilómetros se esconde tu voz,<br>
+y aun así, me alcanza.<br><br>
+No hay muro que detenga la chispa que encendiste sin tocarme.<br><br>
+Eres fuego que no quema, pero arde en cada pensamiento;<br>
+labra el aire con su fuerza, y deja en mi pecho un desvelo eterno.<br><br>
+Trabajas, brillas, resistes,<br>
+mujer hecha de empeño y llama,<br>
+y aunque el mundo nos mida en mapas,<br>
+mi alma te busca sin brújula ni calma.<br><br>
+Quizá el destino juega con nosotros,<br>
+quizá el tiempo pruebe su poder,<br>
+pero hay miradas que, aunque lejanas,<br>
+encienden más que el amanecer.
+</div>
+<div class="page-nav">
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
+</div>
+</section>
+
+<section class="page" data-page="1">
+<span class="favorite" onclick="toggleFavorite(1)">♥</span>
+<h2>Mientras tanto</h2>
+<div class="poem-content">
+No te tengo,<br>
+pero te sostengo en la calma.<br>
+Como se sostiene una certeza<br>
+que no necesita pruebas.<br><br>
+La distancia no nos separa,<br>
+nos aprende.<br>
+Nos vuelve pacientes,<br>
+nos vuelve verdad.<br><br>
+Te extraño sin ruido,<br>
+sin urgencia,<br>
+porque sé que el tiempo<br>
+también sabe amar.<br><br>
+Nuestro amor no corre,<br>
+permanece.<br>
+Crece en lo invisible,<br>
+en lo que aún no ocurre.<br><br>
+Yo espero sin cansarme,<br>
+contando días como quien riega una planta:<br>
+con cuidado,<br>
+con fe.
+</div>
+<div class="page-nav">
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
+</div>
+</section>
+
+<section class="page" data-page="2">
+<span class="favorite" onclick="toggleFavorite(2)">♥</span>
+<h2>Te anhelo</h2>
+<div class="poem-content">
+Como el cielo anhela al sol cuando cae la tarde.<br><br>
+No con desesperación, sino con esa certeza suave de que volverá a tocarlo.<br><br>
+Así te pienso,<br>
+como se piensan los atardeceres:<br>
+con paciencia,<br>
+con esperanza quieta.<br><br>
+Quisiera tenerte cerca para aprender tus silencios,<br>
+para quedarme en tu calma cuando el día se cansa.<br><br>
+Porque así como el cielo espera la luz dorada,<br>
+yo espero el momento en que tu presencia sea parte del paisaje.<br><br>
+Y cuando estés aquí,<br>
+no hará falta decir nada,<br>
+el anhelo sabrá que valió la pena.
+</div>
+<div class="page-nav">
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
+</div>
+</section>
+
+<section class="page" data-page="3">
+<span class="favorite" onclick="toggleFavorite(3)">♥</span>
+<h2>Destino</h2>
+<div class="poem-content">
+Hay mujeres bellas, y luego estás tú.<br><br>
+No por la forma exacta de tu rostro,<br>
+sino por esa mirada donde el mundo baja la voz.<br><br>
+Tus ojos no miran,<br>
+invitan.<br><br>
+Uno entra sin darse cuenta<br>
+y se pierde con gusto.<br><br>
+En ellos el tiempo se equivoca,<br>
+las prisas se rinden,<br>
+y hasta mis pensamientos aprenden a caminar descalzos.<br><br>
+Tu belleza no se exhibe,<br>
+sucede.<br><br>
+Porque perderse en tus ojos<br>
+no es error,<br>
+es destino.
+</div>
+<div class="page-nav">
+<button onclick="showPage(0)">1</button>
+<button onclick="showPage(1)">2</button>
+<button onclick="showPage(2)">3</button>
+<button onclick="showPage(3)">4</button>
+</div>
+</section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

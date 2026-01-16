@@ -1,0 +1,106 @@
+body{
+  margin:0;
+  font-family:'Playfair Display', serif;
+  background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);
+}
+
+/* HEADER */
+header{
+  text-align:center;
+  padding:1.2rem;
+  color:#fff;
+}
+header h1{margin:0;font-size:2.5rem;}
+
+/* REPRODUCTOR */
+.player-wrapper{
+  max-width:720px;
+  margin:0 auto 0.5rem;
+}
+
+.player{
+  background:#fdf8f2;
+  padding:0.6rem;
+  border-radius:6px 6px 0 0;
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+}
+
+.player button{
+  background:none;
+  border:none;
+  font-size:1.2rem;
+  cursor:pointer;
+}
+
+.progress{flex:1;}
+
+.player-song{
+  background:#fdf8f2;
+  text-align:center;
+  font-size:0.9rem;
+  padding:0.4rem;
+  font-weight:600;
+}
+
+.playlist{
+  display:none;
+  background:#fdf8f2;
+  max-height:220px;
+  overflow-y:auto;
+  border-radius:0 0 6px 6px;
+}
+.playlist div{
+  padding:0.6rem;
+  cursor:pointer;
+  border-top:1px solid #ddd;
+  font-size:0.85rem;
+}
+.playlist div:hover{background:#eee;}
+
+/* LIBRO */
+main{
+  display:flex;
+  justify-content:center;
+  padding:1rem;
+}
+
+.page{
+  display:none;
+  background:#fdf8f2;
+  max-width:720px;
+  width:100%;
+  padding:2rem;
+  border-radius:6px;
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
+  position:relative;
+}
+.page.active{display:block;}
+
+.poem-content{
+  height:420px;
+  overflow-y:auto;
+  line-height:1.8;
+}
+
+.favorite{
+  position:absolute;
+  top:18px;
+  right:18px;
+  font-size:1.5rem;
+  cursor:pointer;
+  color:#bbb;
+}
+.favorite.active{color:#c0392b;}
+
+.page-nav{text-align:center;margin-top:1rem;}
+.page-nav button{
+  border:1px solid #333;
+  background:none;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  margin:0 4px;
+  cursor:pointer;
+}
