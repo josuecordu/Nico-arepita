@@ -139,27 +139,25 @@ function togglePlaylist(){
     playlist.style.display === "block" ? "none" : "block";
 }
 
+/* ✅ CLAVE: PASAR AUTOMÁTICAMENTE A LA SIGUIENTE */
+audio.addEventListener("ended", () => {
+  nextSong();
+});
+
 /* =========================
    PROGRESO
 ========================= */
-audio.ontimeupdate = () => {
+audio.addEventListener("timeupdate", () => {
   const bar = document.querySelector(".progress");
   if(audio.duration){
     bar.max = audio.duration;
     bar.value = audio.currentTime;
   }
-};
+});
 
-document.querySelector(".progress").oninput = e => {
+document.querySelector(".progress").addEventListener("input", e => {
   audio.currentTime = e.target.value;
-};
-
-/* =========================
-   AUTO SIGUIENTE CANCIÓN ✅
-========================= */
-audio.onended = () => {
-  nextSong();
-};
+});
 
 /* =========================
    EXPONER FUNCIONES
@@ -170,9 +168,7 @@ window.prevSong = prevSong;
 window.toggleShuffle = toggleShuffle;
 window.togglePlaylist = togglePlaylist;
 
-/* =========================
-   INICIO
-========================= */
-loadSong();
+/* ❌ NO autoplay inicial (evita bugs en móvil) */
+// loadSong();
 
 });
