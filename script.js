@@ -56,7 +56,12 @@ const songs = [
 
   /* 🎵 NEW */
   { file: "Bonita (Bonus Track)(MP3_160K)_1.mp3", isNew: true },
-  { file: "La Gloria Eres Tu(MP3_160K).mp3", isNew: true }
+  { file: "La Gloria Eres Tu(MP3_160K).mp3", isNew: true },
+  { file: "José y el Toro - Vida Mía (Visualizer)(MP3_160K).mp3", isNew: true },
+  { file: "Desde mi habitación - José y el Toro _ Darviin(MP3_160K).mp3", isNew: true },
+  { file: "Si Nos Dejan - Luis Miguel(MP3_160K).mp3", isNew: true },
+  { file: "Contigo(MP3_160K).mp3", isNew: true },
+  { file: "Algo Contigo(MP3_160K).mp3", isNew: true }
 ];
 
 const audio = document.getElementById("audio");
@@ -104,7 +109,7 @@ songs.forEach((song, i) => {
 function loadSong(){
   audio.src = encodeURI(songs[index].file);
   songName.textContent = cleanName(songs[index].file);
-  audio.play();
+  audio.play().catch(()=>{});
   playBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
 }
 
@@ -139,25 +144,23 @@ function togglePlaylist(){
     playlist.style.display === "block" ? "none" : "block";
 }
 
-/* ✅ CLAVE: PASAR AUTOMÁTICAMENTE A LA SIGUIENTE */
-audio.addEventListener("ended", () => {
-  nextSong();
-});
-
 /* =========================
    PROGRESO
 ========================= */
-audio.addEventListener("timeupdate", () => {
+audio.ontimeupdate = () => {
   const bar = document.querySelector(".progress");
   if(audio.duration){
     bar.max = audio.duration;
     bar.value = audio.currentTime;
   }
-});
+};
 
-document.querySelector(".progress").addEventListener("input", e => {
+document.querySelector(".progress").oninput = e => {
   audio.currentTime = e.target.value;
-});
+};
+
+/* ▶️ AVANZAR AUTOMÁTICAMENTE */
+audio.addEventListener("ended", nextSong);
 
 /* =========================
    EXPONER FUNCIONES
@@ -168,7 +171,9 @@ window.prevSong = prevSong;
 window.toggleShuffle = toggleShuffle;
 window.togglePlaylist = togglePlaylist;
 
-/* ❌ NO autoplay inicial (evita bugs en móvil) */
-// loadSong();
+/* =========================
+   INICIO
+========================= */
+loadSong();
 
 });
