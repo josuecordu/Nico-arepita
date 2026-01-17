@@ -18,7 +18,7 @@ header h1{
 }
 
 /* 🎁 BOTÓN REGALO */
-..gift-btn{
+.gift-btn{
   position:absolute;
   top:1.2rem;
   right:1.4rem;
@@ -26,6 +26,12 @@ header h1{
   text-decoration:none;
   cursor:pointer;
   transition:transform .2s ease, filter .2s ease;
+}
+
+.gift-btn:hover{
+  transform:scale(1.2);
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
+}
 }
 
 .gift-btn:hover{
