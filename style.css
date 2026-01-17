@@ -6,13 +6,32 @@ body{
 
 /* HEADER */
 header{
+  position:relative;
   text-align:center;
   padding:1.2rem;
   color:#fff;
 }
+
 header h1{
   margin:0;
   font-size:2.5rem;
+}
+
+/* 🎁 BOTÓN REGALO */
+.gift-btn{
+  position:absolute;
+  top:50%;
+  right:1.2rem;
+  transform:translateY(-50%);
+  font-size:1.6rem;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .2s ease, filter .2s ease;
+}
+
+.gift-btn:hover{
+  transform:translateY(-50%) scale(1.2);
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
 }
 
 /* REPRODUCTOR */
