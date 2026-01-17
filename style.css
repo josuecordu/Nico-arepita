@@ -38,10 +38,6 @@ header h1{
   transform:scale(1.2);
   filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
 }
-
-.gift-btn:hover{
-  transform:translateY(-50%) scale(1.2);
-  filter:drop-shadow(0 0 6px rgba(255,255,255,.6));
 }
 
 /* REPRODUCTOR */
